@@ -1,4 +1,4 @@
-import { OrganizationList } from '@clerk/nextjs';
+import { OrganizationList } from "@clerk/nextjs";
 
 export default function OrgSelectionPage() {
   return (
@@ -9,8 +9,8 @@ export default function OrgSelectionPage() {
         afterSelectOrganizationUrl="/"
         appearance={{
           elements: {
-            rootBox: 'mx-auto',
-            card: 'shadow-lg',
+            rootBox: "mx-auto",
+            card: "shadow-lg",
           },
         }}
       />
