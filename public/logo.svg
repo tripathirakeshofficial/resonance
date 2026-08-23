@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Resonance</title>
+  <desc id="desc">
+    Abstract R-shaped AI voice waveform logo for the Resonance voice changer and generation app.
+  </desc>
+
+  <defs>
+    <linearGradient id="resonanceGradient" x1="70" y1="90" x2="440" y2="430" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#22D3EE"/>
+      <stop offset="0.48" stop-color="#3B82F6"/>
+      <stop offset="1" stop-color="#D946EF"/>
+    </linearGradient>
+
+    <linearGradient id="waveGradient" x1="95" y1="256" x2="417" y2="256" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#22D3EE"/>
+      <stop offset="0.52" stop-color="#818CF8"/>
+      <stop offset="1" stop-color="#F472D0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Main Resonance R mark -->
+  <path
+    fill="url(#resonanceGradient)"
+    d="
+      M128 92
+      C128 68 147 52 171 52
+      H329
+      C372 52 404 80 404 119
+      C404 154 383 177 353 189
+      C380 205 401 230 417 261
+      L454 332
+      C461 346 452 362 436 362
+      H385
+      C374 362 365 356 359 346
+      L317 276
+      C304 254 286 241 262 241
+      H249
+      V346
+      C249 356 241 362 231 362
+      H179
+      C164 362 154 352 154 338
+      V164
+      C154 146 145 129 128 118
+      C119 112 119 99 128 92
+      Z
+
+      M249 112
+      V194
+      H321
+      C341 194 353 181 353 162
+      C353 142 339 128 319 128
+      H249
+      Z
+    "
+  />
+
+  <!-- Voice / sound negative-space element -->
+  <path
+    fill="#050816"
+    d="
+      M249 194
+      C279 191 302 202 317 219
+      C329 233 334 247 338 260
+      C344 274 355 281 369 283
+      C353 292 334 294 318 289
+      C305 285 294 276 283 265
+      C273 255 262 248 249 245
+      Z
+    "
+  />
+
+  <!-- Audio waveform -->
+  <g fill="url(#waveGradient)">
+    <rect x="74"  y="246" width="8" height="20" rx="4"/>
+    <rect x="91"  y="237" width="8" height="38" rx="4"/>
+    <rect x="108" y="226" width="8" height="60" rx="4"/>
+    <rect x="125" y="214" width="8" height="84" rx="4"/>
+    <rect x="142" y="232" width="8" height="48" rx="4"/>
+    <rect x="159" y="202" width="8" height="108" rx="4"/>
+    <rect x="176" y="238" width="8" height="36" rx="4"/>
+    <rect x="193" y="224" width="8" height="64" rx="4"/>
+    <rect x="210" y="246" width="8" height="20" rx="4"/>
+
+    <rect x="302" y="246" width="8" height="20" rx="4"/>
+    <rect x="319" y="224" width="8" height="64" rx="4"/>
+    <rect x="336" y="238" width="8" height="36" rx="4"/>
+    <rect x="353" y="202" width="8" height="108" rx="4"/>
+    <rect x="370" y="232" width="8" height="48" rx="4"/>
+    <rect x="387" y="214" width="8" height="84" rx="4"/>
+    <rect x="404" y="226" width="8" height="60" rx="4"/>
+    <rect x="421" y="237" width="8" height="38" rx="4"/>
+    <rect x="438" y="246" width="8" height="20" rx="4"/>
+  </g>
+
+  <!-- AI spark -->
+  <path
+    d="
+      M360 94 L360 126
+      M344 110 L376 110
+      M349 99 L371 121
+      M371 99 L349 121
+    "
+    fill="none"
+    stroke="url(#resonanceGradient)"
+    stroke-width="7"
+    stroke-linecap="round"
+  />
+</svg>

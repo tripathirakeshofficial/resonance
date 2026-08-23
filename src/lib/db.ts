@@ -1,6 +1,6 @@
-import { PrismaClient } from "@/generated/prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { env } from "./env";
+import { PrismaClient } from '@/generated/prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { env } from './env';
 
 /**
  * Create a PostgreSQL adapter for Prisma.
@@ -45,7 +45,7 @@ const prisma =
  * In production, we don't need this global caching because
  * the application lifecycle is handled differently.
  */
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma;
 }
 
