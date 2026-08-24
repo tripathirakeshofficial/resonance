@@ -158,7 +158,7 @@ export function DashboardSidebar() {
                   organizationPreview: "gap-2!",
                   organizationPreviewAvatarBox: "size-6! rounded-sm!",
                   organizationPreviewTextContainer:
-                    "text-xs! tracking-light! font-medium! text-foreground! group-data-[collapsible=icon]:hidden!",
+                    "text-xs! tracking-tight! font-medium! text-foreground! group-data-[collapsible=icon]:hidden!",
                   organizationPreviewMainIdentifier: "text-[13px]!",
                   organizationSwitcherTriggerIcon:
                     "size-4! text-sidebar-foreground! group-data-[collapsible=icon]:hidden!",
