@@ -15,7 +15,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Resonance",
+  title: {
+    default:"Resonance",
+    template: "%s | Resonance"
+  },
   description: "Full Stack AI Voice SaaS",
 };
 
