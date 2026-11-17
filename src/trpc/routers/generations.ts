@@ -1,7 +1,7 @@
 import { TEXT_MAX_LENGTH } from "@/features/text-to-speech/data/constants";
 import { chatterbox } from "@/lib/chatterbox-client";
 import { prisma } from "@/lib/db";
-import { uploadAudio } from "@/lib/r2";
+import { deleteAudio, uploadAudio } from "@/lib/r2";
 import { TRPCError } from "@trpc/server";
 import z from "zod";
 import { createTRPCRouter, orgProcedure } from "../init";
@@ -34,17 +34,22 @@ export const generationsRouter = createTRPCRouter({
       where: { orgId: ctx.orgId },
       orderBy: { createdAt: "desc" },
       omit: {
-        orgId: true,
+        // orgId: true,
         r2ObjectKey: true,
       },
     });
+
     return generations;
   }),
 
   create: orgProcedure
     .input(
       z.object({
-        text: z.string().min(1).max(TEXT_MAX_LENGTH),
+        text: z
+          .string()
+          .trim()
+          .min(1, "Text cannot be empty")
+          .max(TEXT_MAX_LENGTH, `Text cannot exceed ${TEXT_MAX_LENGTH} characters`),
         voiceId: z.string().min(1),
         temperature: z.number().min(0).max(2).default(0.8),
         topP: z.number().min(0).max(1).default(0.95),
@@ -145,6 +150,12 @@ export const generationsRouter = createTRPCRouter({
         });
       } catch (error) {
         console.error("Failed to store generated audio:", error);
+
+        if (r2ObjectKey) {
+          await deleteAudio(r2ObjectKey).catch((deleteError) => {
+            console.error("Failed to clean up R2 audio:", deleteError);
+          });
+        }
 
         if (generationId) {
           await prisma.generation

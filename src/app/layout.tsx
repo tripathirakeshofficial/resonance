@@ -30,14 +30,14 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <TRPCReactProvider>
-        <html lang="en">
-          <body className={`${inter.variable} ${geistMono.variable} antialiased`}>
+      <html lang="en">
+        <body className={`${inter.variable} ${geistMono.variable} antialiased`}>
+          <TRPCReactProvider>
             {children}
             <Toaster />
-          </body>
-        </html>
-      </TRPCReactProvider>
+          </TRPCReactProvider>
+        </body>
+      </html>
     </ClerkProvider>
   );
 }

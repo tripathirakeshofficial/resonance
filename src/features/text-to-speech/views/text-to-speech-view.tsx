@@ -2,12 +2,9 @@
 
 import { SettingsPanel } from "@/features/text-to-speech/components/settings-panel";
 import { TextInputPanel } from "@/features/text-to-speech/components/text-input-panel";
-import {
-  defaultTTSValues,
-  TextToSpeechForm,
-  type TTSFormValues,
-} from "@/features/text-to-speech/components/text-to-speech-form";
+import { TextToSpeechForm } from "@/features/text-to-speech/components/text-to-speech-form";
 import { VoicePreviewPlaceholder } from "@/features/text-to-speech/components/voice-preview-placeholder";
+import { defaultTTSValues, type TTSFormValues } from "@/features/text-to-speech/data/form-options";
 import { useTRPC } from "@/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { TTSVoicesProvider } from "../contexts/tts-voices-context";

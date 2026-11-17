@@ -3,8 +3,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { GenerateButton } from "@/features/text-to-speech/components/generate-button";
-import { ttsFormOptions } from "@/features/text-to-speech/components/text-to-speech-form";
 import { COST_PER_UNIT, TEXT_MAX_LENGTH } from "@/features/text-to-speech/data/constants";
+import { ttsFormOptions } from "@/features/text-to-speech/data/form-options";
 import { useTypedAppFormContext } from "@/hooks/use-app-form";
 import { useStore } from "@tanstack/react-form";
 import { Coins } from "lucide-react";
@@ -25,6 +25,7 @@ export function TextInputPanel() {
             <Textarea
               value={field.state.value}
               onChange={(e) => field.handleChange(e.target.value)}
+              aria-label="Text to convert to speech"
               placeholder="Start typing or paste your text here..."
               className="absolute inset-0 resize-none border-0 bg-transparent p-4 pb-6 lg:p-6 lg:pb-8 text-base! leading-relaxed tracking-tight shadow-none wrap-break-word focus-visible:ring-0"
               maxLength={TEXT_MAX_LENGTH}
@@ -42,7 +43,7 @@ export function TextInputPanel() {
         <div className="flex flex-col gap-3 lg:hidden">
           <GenerateButton
             className="w-full"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !isValid}
             isSubmitting={isSubmitting}
             onSubmit={() => form.handleSubmit()}
           />

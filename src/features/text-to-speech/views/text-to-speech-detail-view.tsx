@@ -2,12 +2,10 @@
 
 import { TextInputPanel } from "@/features/dashboard/components/text-input-panel";
 import { SettingsPanel } from "@/features/text-to-speech/components/settings-panel";
-import {
-  TextToSpeechForm,
-  TTSFormValues,
-} from "@/features/text-to-speech/components/text-to-speech-form";
+import { TextToSpeechForm } from "@/features/text-to-speech/components/text-to-speech-form";
 import { VoicePreviewPlaceholder } from "@/features/text-to-speech/components/voice-preview-placeholder";
 import { TTSVoicesProvider } from "@/features/text-to-speech/contexts/tts-voices-context";
+import type { TTSFormValues } from "@/features/text-to-speech/data/form-options";
 import { useTRPC } from "@/trpc/client";
 import { useSuspenseQueries } from "@tanstack/react-query";
 
@@ -37,14 +35,6 @@ export function TextToSpeechDetailView({ generationId }: { generationId: string 
     topP: data.topP,
     topK: data.topK,
     repetitionPenalty: data.repetitionPenalty,
-  };
-
-  // Use the denormalized voiceName snapshot instead of a populated voice relation
-  // so the preview always shows the voice name at the time of generation,
-  // even if the voice was later renamed or deleted.
-  const generationVoice = {
-    id: data.voiceId ?? undefined,
-    name: data.voiceName,
   };
 
   return (

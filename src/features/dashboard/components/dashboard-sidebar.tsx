@@ -29,17 +29,45 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-interface Menuitem {
+interface MenuItem {
   title: string;
-  url?: string;
   icon: LucideIcon;
+  url?: string;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 interface NavSectionProps {
   label?: string;
-  items: Menuitem[];
+  items: MenuItem[];
   pathname: string;
+}
+
+const mainMenuItems: MenuItem[] = [
+  {
+    title: "Dashboard",
+    url: "/",
+    icon: Home,
+  },
+  {
+    title: "Explore Voices",
+    icon: LayoutGrid,
+    disabled: true,
+  },
+  {
+    title: "Text to speech",
+    url: "/text-to-speech",
+    icon: AudioLines,
+  },
+  {
+    title: "Voice cloning",
+    icon: Volume2,
+    disabled: true,
+  },
+];
+
+function isRouteActive(pathname: string, url: string) {
+  return url === "/" ? pathname === "/" : pathname === url || pathname.startsWith(`${url}/`);
 }
 
 function NavSection({ label, items, pathname }: NavSectionProps) {
@@ -50,37 +78,34 @@ function NavSection({ label, items, pathname }: NavSectionProps) {
           {label}
         </SidebarGroupLabel>
       )}
+
       <SidebarGroupContent>
         <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton
-                asChild={!!item.url}
-                isActive={
-                  item.url
-                    ? item.url === "/"
-                      ? pathname === "/"
-                      : pathname.startsWith(item.url)
-                    : false
-                }
-                onClick={item.onClick}
-                tooltip={item.title}
-                className="h-9 px-3 py2 text-[13px] tracking-tight font-medium border border-transparent data-[active=true]:border-border data-[active=true]:shadow-[0px_1px_1px_0px_rgba(44,54,53,0.03),inset_0px_0px_0px_2px_white]"
-              >
-                {item.url ? (
-                  <Link href={item.url}>
-                    <item.icon />
-                    <span>{item.title}</span>
-                  </Link>
-                ) : (
-                  <>
-                    <item.icon />
-                    <span>{item.title}</span>
-                  </>
-                )}
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+          {items.map((item) => {
+            const isLink = Boolean(item.url && !item.disabled);
+
+            const menuButton = (
+              <>
+                <item.icon />
+                <span>{item.title}</span>
+              </>
+            );
+
+            return (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton
+                  asChild={isLink}
+                  disabled={item.disabled}
+                  isActive={item.url && !item.disabled ? isRouteActive(pathname, item.url) : false}
+                  onClick={item.onClick}
+                  tooltip={item.title}
+                  className="h-9 border border-transparent px-3 py-2 text-[13px] font-medium tracking-tight data-[active=true]:border-border data-[active=true]:shadow-[0px_1px_1px_0px_rgba(44,54,53,0.03),inset_0px_0px_0px_2px_white] disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {isLink && item.url ? <Link href={item.url}>{menuButton}</Link> : menuButton}
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            );
+          })}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
@@ -91,29 +116,7 @@ export function DashboardSidebar() {
   const pathname = usePathname();
   const clerk = useClerk();
 
-  const mainMenuItems: Menuitem[] = [
-    {
-      title: "Dashboard",
-      url: "/",
-      icon: Home,
-    },
-    {
-      title: "Explore Voices",
-      url: "/voices",
-      icon: LayoutGrid,
-    },
-    {
-      title: "Text to speech",
-      url: "/text-to-speech",
-      icon: AudioLines,
-    },
-    {
-      title: "Voice cloning",
-      icon: Volume2,
-    },
-  ];
-
-  const othersMenuItems: Menuitem[] = [
+  const otherMenuItems: MenuItem[] = [
     {
       title: "Settings",
       icon: Settings,
@@ -132,22 +135,25 @@ export function DashboardSidebar() {
         <div className="flex items-center gap-2 pl-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:pl-0">
           <Image
             src="/logo.svg"
-            alt="Resonace"
+            alt="Resonance"
             width={24}
             height={24}
             className="rounded-sm pt-1"
           />
-          <span className="group-data-[collapsible=icon]:hidden font-semibold text-lg tracking-tighter text-foreground">
+
+          <span className="font-semibold text-lg tracking-tighter text-foreground group-data-[collapsible=icon]:hidden">
             Resonance
           </span>
+
           <SidebarTrigger className="ml-auto lg:hidden" />
         </div>
+
         <SidebarMenu>
           <SidebarMenuItem>
             <OrganizationSwitcher
               hidePersonal
               fallback={
-                <Skeleton className="h-8.5 w-full group-data-[collapsible=icon]:size-8 rounded-md border border-border bg-white" />
+                <Skeleton className="h-8.5 w-full rounded-md border border-border bg-white group-data-[collapsible=icon]:size-8" />
               }
               appearance={{
                 elements: {
@@ -168,19 +174,23 @@ export function DashboardSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+
       <div className="border-b border-dashed border-border" />
+
       <SidebarContent>
         <NavSection items={mainMenuItems} pathname={pathname} />
-        <NavSection label="Others" items={othersMenuItems} pathname={pathname} />
+        <NavSection label="Others" items={otherMenuItems} pathname={pathname} />
       </SidebarContent>
+
       <div className="border-b border-dashed border-border" />
+
       <SidebarFooter className="gap-3 py-3">
         <SidebarMenu>
           <SidebarMenuItem>
             <UserButton
               showName
               fallback={
-                <Skeleton className="h-8.5 w-full group-data-[collapsible=icon]:size-8 rounded-md border border-border bg-white" />
+                <Skeleton className="h-8.5 w-full rounded-md border border-border bg-white group-data-[collapsible=icon]:size-8" />
               }
               appearance={{
                 elements: {
@@ -198,6 +208,7 @@ export function DashboardSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
+
       <SidebarRail />
     </Sidebar>
   );

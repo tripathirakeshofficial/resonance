@@ -4,7 +4,7 @@ import { z } from "zod";
 export const env = createEnv({
   server: {
     DATABASE_URL: z.string().min(1),
-    APP_URL: z.string().min(1),
+    APP_URL: z.url(),
     R2_ACCOUNT_ID: z.string().min(1),
     R2_ACCESS_KEY_ID: z.string().min(1),
     R2_SECRET_ACCESS_KEY: z.string().min(1),
@@ -13,5 +13,5 @@ export const env = createEnv({
     CHATTERBOX_API_KEY: z.string().min(1),
   },
   experimental__runtimeEnv: {},
-  skipValidation: !!process.env.SKIP_ENV_VALIDATION,
+  skipValidation: process.env.SKIP_ENV_VALIDATION === "true",
 });

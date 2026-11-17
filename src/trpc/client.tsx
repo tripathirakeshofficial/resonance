@@ -4,6 +4,7 @@ import type { QueryClient } from "@tanstack/react-query";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { createTRPCClient, httpBatchLink } from "@trpc/client";
 import { createTRPCContext } from "@trpc/tanstack-react-query";
+import type { ReactNode } from "react";
 import { useState } from "react";
 import superjson from "superjson";
 import { makeQueryClient } from "./query-client";
@@ -32,7 +33,7 @@ function getUrl() {
 }
 export function TRPCReactProvider(
   props: Readonly<{
-    children: React.ReactNode;
+    children: ReactNode;
   }>,
 ) {
   // NOTE: Avoid useState when initializing the query client if you don't

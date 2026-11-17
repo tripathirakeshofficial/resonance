@@ -5,7 +5,7 @@ import { AudioLines, AudioWaveform, Clock } from "lucide-react";
 export function SettingsPanelHistory() {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-2 p-8">
-      <div className="relative flex w-25 items-center justify-center">
+      <div aria-hidden="true" className="relative flex w-25 items-center justify-center">
         <div className="absolute left-0 -rotate-30 rounded-full bg-muted p-3">
           <AudioLines className="size-4 text-muted-foreground" />
         </div>
@@ -19,7 +19,9 @@ export function SettingsPanelHistory() {
         </div>
       </div>
       <p className="font-semibold tracking-tight text-foreground">No generations yet</p>
-      <p className="max-w-48 text-center text-xs text-muted-foreground">Generate some audio and it will appear here</p>
+      <p className="max-w-48 text-center text-xs text-muted-foreground">
+        Generate some audio and it will appear here
+      </p>
     </div>
   );
 }

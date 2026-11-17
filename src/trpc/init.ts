@@ -1,3 +1,5 @@
+import "server-only";
+
 import { auth } from "@clerk/nextjs/server";
 import { initTRPC, TRPCError } from "@trpc/server";
 import { cache } from "react";

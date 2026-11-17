@@ -87,7 +87,9 @@ export const voicesRouter = createTRPCRouter({
     await prisma.voice.delete({ where: { id: voice.id } });
 
     if (voice.r2ObjectKey) {
-      await deleteAudio(voice.r2ObjectKey).catch(() => {});
+      await deleteAudio(voice.r2ObjectKey).catch((error) => {
+        console.error("Failed to delete voice audio from R2:", error);
+      });
     }
   }),
 });

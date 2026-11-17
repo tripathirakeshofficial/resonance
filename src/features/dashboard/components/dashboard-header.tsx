@@ -11,7 +11,7 @@ export function DashboardHeader() {
   return (
     <div className="flex items-start justify-between">
       <div className="space-y-1">
-        <p className="text-sm text-muted-forground">Nice to see you</p>
+        <p className="text-sm text-muted-foreground">Nice to see you</p>
         <h1 className="text-2xl lg:text-3xl font-semibold tracking-tight">
           {isLoaded ? (user?.fullName ?? user?.firstName ?? "there") : "..."}
         </h1>
@@ -20,13 +20,13 @@ export function DashboardHeader() {
         <Button variant="outline" size="sm" asChild>
           <Link href="mailto:tripathirakeshofficial@gmail.com">
             <ThumbsUp />
-            <span className="hidden lg:block">Feedback</span>
+            <span>Feedback</span>
           </Link>
         </Button>
         <Button variant="outline" size="sm" asChild>
           <Link href="mailto:tripathirakeshofficial@gmail.com">
             <Headphones />
-            <span className="hidden lg:block">Need Help?</span>
+            <span>Need Help?</span>
           </Link>
         </Button>
       </div>

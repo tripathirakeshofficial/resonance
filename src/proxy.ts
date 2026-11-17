@@ -24,7 +24,12 @@ export default clerkMiddleware(async (auth, req) => {
   }
 
   // For all protected route, ensure org is selected
-  if (userId && !orgId) {
+  if (
+    userId &&
+    !orgId &&
+    !req.nextUrl.pathname.startsWith("/api/") &&
+    !req.nextUrl.pathname.startsWith("/trpc/")
+  ) {
     const orgSelection = new URL("/org-selection", req.url);
     return NextResponse.redirect(orgSelection);
   }

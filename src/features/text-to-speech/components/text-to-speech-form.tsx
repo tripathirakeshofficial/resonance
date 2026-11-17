@@ -1,6 +1,12 @@
+"use client";
+
+import {
+  defaultTTSValues,
+  ttsFormOptions,
+  type TTSFormValues,
+} from "@/features/text-to-speech/data/form-options";
 import { useAppForm } from "@/hooks/use-app-form";
 import { useTRPC } from "@/trpc/client";
-import { formOptions } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -15,21 +21,6 @@ const ttsFormSchema = z.object({
   repetitionPenalty: z.number(),
 });
 
-export type TTSFormValues = z.infer<typeof ttsFormSchema>;
-
-export const defaultTTSValues: TTSFormValues = {
-  text: "",
-  voiceId: "",
-  temperature: 0.8,
-  topP: 0.95,
-  topK: 1000,
-  repetitionPenalty: 1.2,
-};
-
-export const ttsFormOptions = formOptions({
-  defaultValues: defaultTTSValues,
-});
-
 export function TextToSpeechForm({
   children,
   defaultValues,
@@ -39,6 +30,7 @@ export function TextToSpeechForm({
 }) {
   const trpc = useTRPC();
   const router = useRouter();
+
   const createMutation = useMutation(trpc.generations.create.mutationOptions({}));
 
   const form = useAppForm({
@@ -62,7 +54,8 @@ export function TextToSpeechForm({
         router.push(`/text-to-speech/${data.id}`);
       } catch (error) {
         const message = error instanceof Error ? error.message : "Failed to generate audio";
-        console.log(error);
+
+        console.error("Failed to generate speech:", error);
         toast.error(message);
       }
     },

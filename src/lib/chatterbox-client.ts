@@ -1,4 +1,6 @@
-import { paths } from "@/types/chatterbox-api";
+import "server-only";
+
+import type { paths } from "@/types/chatterbox-api";
 import createClient from "openapi-fetch";
 import { env } from "./env";
 
@@ -8,5 +10,3 @@ export const chatterbox = createClient<paths>({
     "x-api-key": env.CHATTERBOX_API_KEY,
   },
 });
-
-

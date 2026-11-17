@@ -1,6 +1,6 @@
-import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/db";
 import { getSignedAudioUrl } from "@/lib/r2";
+import { auth } from "@clerk/nextjs/server";
 
 export async function GET(
   _request: Request,
@@ -16,6 +16,7 @@ export async function GET(
 
   const generation = await prisma.generation.findUnique({
     where: { id: generationId, orgId },
+    select: { r2ObjectKey: true },
   });
 
   if (!generation) {

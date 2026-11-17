@@ -1,7 +1,11 @@
+import bundleAnalyzer from "@next/bundle-analyzer";
 import type { NextConfig } from "next";
 
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
+
 const nextConfig: NextConfig = {
-  /* config options here */
   experimental: {
     serverActions: {
       allowedOrigins: ["localhost:3000", "turbo-xylophone-jgx9prvxpvvf57q7-3000.app.github.dev"],
@@ -10,4 +14,4 @@ const nextConfig: NextConfig = {
   devIndicators: false,
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);

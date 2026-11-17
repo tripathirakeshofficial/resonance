@@ -12,8 +12,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { VoiceAvatar } from "@/components/voice-avatar/voice-avatar";
-import { ttsFormOptions } from "@/features/text-to-speech/components/text-to-speech-form";
 import { useTTSVoices } from "@/features/text-to-speech/contexts/tts-voices-context";
+import { ttsFormOptions } from "@/features/text-to-speech/data/form-options";
 import { VOICE_CATEGORY_LABELS } from "@/features/voices/data/voice-categories";
 import { useTypedAppFormContext } from "@/hooks/use-app-form";
 import { useStore } from "@tanstack/react-form";
@@ -45,7 +45,10 @@ export function VoiceSelector() {
         onValueChange={(v) => form.setFieldValue("voiceId", v)}
         disabled={isSubmitting}
       >
-        <SelectTrigger className="w-full h-auto gap-1 rounded-lg bg-white px-2 py-1">
+        <SelectTrigger
+          className="w-full h-auto gap-1 rounded-lg bg-white px-2 py-1"
+          aria-label="Voice Style"
+        >
           <SelectValue>
             {currentVoice && (
               <>

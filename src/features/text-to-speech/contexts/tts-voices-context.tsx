@@ -1,8 +1,9 @@
 "use client";
 
-import { AppRouter } from "@/trpc/routers/_app";
-import { inferRouterOutputs } from "@trpc/server";
-import React, { createContext, useContext } from "react";
+import type { AppRouter } from "@/trpc/routers/_app";
+import type { inferRouterOutputs } from "@trpc/server";
+import type { ReactNode } from "react";
+import { createContext, useContext } from "react";
 
 type TTSVoiceItem = inferRouterOutputs<AppRouter>["voices"]["getAll"]["custom"][number];
 
@@ -18,7 +19,7 @@ export function TTSVoicesProvider({
   children,
   value,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   value: TTSVoicesContextValue;
 }) {
   return <TTSVoicesContext.Provider value={value}>{children}</TTSVoicesContext.Provider>;

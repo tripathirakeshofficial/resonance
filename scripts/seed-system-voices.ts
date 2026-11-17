@@ -1,4 +1,9 @@
-import { PutObjectCommand, PutObjectCommandInput, S3Client } from "@aws-sdk/client-s3";
+import {
+  DeleteObjectCommand,
+  PutObjectCommand,
+  type PutObjectCommandInput,
+  S3Client,
+} from "@aws-sdk/client-s3";
 import { PrismaPg } from "@prisma/adapter-pg";
 import "dotenv/config";
 import fs from "node:fs/promises";
@@ -163,7 +168,7 @@ const systemVoiceMetadata: Record<string, VoiceMetadata> = {
 
 async function readSystemVoiceAudio(name: string) {
   const filePath = path.join(SYSTEM_VOICES_DIR, `${name}.wav`);
-  const buffer = Buffer.from(await fs.readFile(filePath));
+  const buffer = await fs.readFile(filePath);
   return { buffer, contentType: "audio/wav" };
 }
 
@@ -188,6 +193,7 @@ async function uploadSystemVoiceAudio({
 
 async function seedSystemVoice(name: string) {
   const { buffer, contentType } = await readSystemVoiceAudio(name);
+  const meta = systemVoiceMetadata[name];
 
   const existingSystemVoice = await prisma.voice.findFirst({
     where: {
@@ -197,9 +203,9 @@ async function seedSystemVoice(name: string) {
     select: { id: true },
   });
 
+  // Update the existing voice instead of creating a duplicate.
   if (existingSystemVoice) {
     const r2ObjectKey = `voices/system/${existingSystemVoice.id}`;
-    const meta = systemVoiceMetadata[name];
 
     await uploadSystemVoiceAudio({
       key: r2ObjectKey,
@@ -218,9 +224,9 @@ async function seedSystemVoice(name: string) {
         }),
       },
     });
-  }
 
-  const meta = systemVoiceMetadata[name];
+    return;
+  }
 
   const voice = await prisma.voice.create({
     data: {
@@ -256,13 +262,26 @@ async function seedSystemVoice(name: string) {
       },
     });
   } catch (error) {
+    try {
+      await r2.send(
+        new DeleteObjectCommand({
+          Bucket: env.R2_BUCKET_NAME,
+          Key: r2ObjectKey,
+        }),
+      );
+    } catch (cleanupError) {
+      console.error(`Failed to clean up R2 object for voice "${name}":`, cleanupError);
+    }
+
     await prisma.voice
       .delete({
         where: {
           id: voice.id,
         },
       })
-      .catch(() => {});
+      .catch((cleanupError) => {
+        console.error(`Failed to clean up database record for voice "${name}":`, cleanupError);
+      });
 
     throw error;
   }

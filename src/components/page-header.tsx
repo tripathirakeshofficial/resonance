@@ -11,10 +11,10 @@ interface PageHeaderProps {
 
 export function PageHeader({ title, className }: PageHeaderProps) {
   return (
-    <div className={cn("flex item-center justify-between border-b px-4 py-4", className)}>
+    <div className={cn("flex items-center justify-between border-b px-4 py-4", className)}>
       <div className="flex items-center gap-2">
         <SidebarTrigger />
-        <h1 className="text-lg font-semibold tracking-light">{title}</h1>
+        <h1 className="text-lg font-semibold tracking-tight">{title}</h1>
       </div>
       <div className="flex items-center gap-3">
         <Button variant="outline" size="sm" asChild>
